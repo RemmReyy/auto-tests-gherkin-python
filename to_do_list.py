@@ -10,7 +10,12 @@ class ToDoList:
     def __init__(self):
         self.task_list = []
 
+    def task_exists(self, task_title):
+        return any(task.task_title == task_title for task in self.task_list)
+
     def add_task(self, task_title, task_text="", deadline="", priority=""):
+        if self.task_exists(task_title):
+            raise ValueError(f"Завдання '{task_title}' вже існує!")
         new_task = Task(task_title, task_text, deadline, priority)
         self.task_list.append(new_task)
 
