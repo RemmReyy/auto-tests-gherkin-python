@@ -18,3 +18,8 @@ Feature: To do list functionality
     Given I have a task "Make homework" in my list
     When I try to add another task with title "Make homework"
     Then I should see an error about duplicate task
+
+  Scenario: Marking task as completed
+    Given I have a task "Call mom" in my list
+    When I change task Call mom status to completed
+    Then the task Call mom should be marked as completed

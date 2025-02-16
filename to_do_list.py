@@ -31,16 +31,20 @@ class ToDoList:
             if task.task_title == task_title:
                 task.status = status
                 return
+
         raise NameError("We don't have this task")
 
     def show_completed_tasks(self):
-        for task in self.task_list:
-            if task.status:
+        completed_tasks = [task for task in self.task_list if task.status]
+        if completed_tasks:
+            for task in completed_tasks:
                 print(task)
-        raise "You dont have completed tasks"
+        else:
+            raise ValueError("You don't have completed tasks")
+
 
     def show_active_tasks(self):
         for task in self.task_list:
             if not task.status:
                 print(task)
-        raise "Congratulations, you have completed all your tasks!"
+        print("Congratulations, you have completed all your tasks!")

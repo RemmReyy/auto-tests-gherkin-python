@@ -68,20 +68,31 @@ def verify_tasks_in_list(context):
         assert found, f"Task '{task_title}' was not found in the list"
 
 
-    @given('I have a task "{task_title}" in my list')
-    def create_single_task(context, task_title):
-        context.todo_list = ToDoList()
-        context.todo_list.add_task(task_title, "Test description", "20.02.2025", "Medium")
+@given('I have a task "{task_title}" in my list')
+def create_single_task(context, task_title):
+    context.todo_list = ToDoList()
+    context.todo_list.add_task(task_title, "Test description", "20.02.2025", "Medium")
 
-    @when('I try to add another task with title "{task_title}"')
-    def try_add_duplicate(context,task_title):
-        try:
-            context.todo_list.add_task(task_title,"Test description", "20.02.2025", "Medium")
-            context.duplicate_added = True
-        except ValueError as e:
-            context.error_message = str(e)
-            context.duplicate_added = False
+@when('I try to add another task with title "{task_title}"')
+def try_add_duplicate(context,task_title):
+    try:
+        context.todo_list.add_task(task_title,"Test description", "20.02.2025", "Medium")
+        context.duplicate_added = True
+    except ValueError as e:
+        context.error_message = str(e)
+        context.duplicate_added = False
 
     @then('I should see an error about duplicate task')
     def verify_duplicate_error(context):
         assert ValueError(f"The task '{task_title}' already exist!")
+
+
+@when('I change task {task_title} status to completed')
+def change_task_status(context,task_title):
+    context.todo_list.change_status(task_title,True)
+
+@then('the task {task_title} should be marked as completed')
+def verify_task_status(context, task_title):
+    for task in context.todo_list.task_list:
+        if task.task_title == task_title:
+            assert task.status == True, "Task status was not changed to completed"
