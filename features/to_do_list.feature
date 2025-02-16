@@ -28,3 +28,8 @@ Feature: To do list functionality
     Given I have my list with some completed tasks
     When I call function show completed tasks
     Then the completed tasks should include tasks with status complete
+
+  Scenario: Showing active tasks
+    Given I have my list with completed and active tasks
+    When I call function show active tasks
+    Then the active tasks list should include tasks with status active

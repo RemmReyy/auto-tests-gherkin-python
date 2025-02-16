@@ -114,3 +114,22 @@ def retrieve_completed_tasks(context):
 @then('the completed tasks should include tasks with status complete')
 def verify_completed_tasks(context):
     assert all(task.status for task in context.completed_tasks), "Not all tasks are marked as completed"
+
+@given('I have my list with completed and active tasks')
+def add_active_task(context):
+    context.todo_list = ToDoList()
+    context.todo_list.add_task("Buy some products", "Buy milk, cheese and beef", "17.02.2025", "Low")
+    context.todo_list.add_task("Make homework", "You need to do your python homework", "20.02.2025", "Medium")
+    context.todo_list.add_task("Call mom", "Call mom and wish happy birthday", "18.02.2025", "High")
+    context.todo_list.add_task("Write tests", "Write tests for main functions of your project", "25.02.2025", "High")
+    context.todo_list.change_status("Make homework", True)
+    context.todo_list.change_status("Call mom", True)
+
+
+@when('I call function show active tasks')
+def retrieve_active_tasks(context):
+    context.active_tasks = context.todo_list.show_active_tasks()
+
+@then('the active tasks list should include tasks with status active')
+def verify_active_tasks(context):
+    assert all(not task.status for task in context.active_tasks), "Not all tasks are marked as active"
