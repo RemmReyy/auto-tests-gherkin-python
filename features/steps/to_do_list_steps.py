@@ -66,3 +66,22 @@ def verify_tasks_in_list(context):
 
     for task_title, found in found_tasks.items():
         assert found, f"Task '{task_title}' was not found in the list"
+
+
+    @given('I have a task "{task_title}" in my list')
+    def create_single_task(context, task_title):
+        context.todo_list = ToDoList()
+        context.todo_list.add_task(task_title, "Test description", "20.02.2025", "Medium")
+
+    @when('I try to add another task with title "{task_title}"')
+    def try_add_duplicate(context,task_title):
+        try:
+            context.todo_list.add_task(task_title,"Test description", "20.02.2025", "Medium")
+            context.duplicate_added = True
+        except ValueError as e:
+            context.error_message = str(e)
+            context.duplicate_added = False
+
+    @then('I should see an error about duplicate task')
+    def verify_duplicate_error(context):
+        assert ValueError(f"The task '{task_title}' already exist!")

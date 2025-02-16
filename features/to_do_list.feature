@@ -13,3 +13,8 @@ Feature: To do list functionality
     When I add the tasks "Make homework", "Buy some products" and "Call mom" to the list
     Then the tasks should be successfully created
     And the tasks should appear in my to-do list
+
+  Scenario: Preventing duplicate task creation
+    Given I have a task "Make homework" in my list
+    When I try to add another task with title "Make homework"
+    Then I should see an error about duplicate task
