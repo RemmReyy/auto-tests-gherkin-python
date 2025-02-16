@@ -43,7 +43,7 @@ class ToDoList:
 
 
     def show_active_tasks(self):
-        for task in self.task_list:
-            if not task.status:
-                print(task)
-        print("Congratulations, you have completed all your tasks!")
+        active_tasks = [task for task in self.task_list if not task.status]
+        if active_tasks:
+            return active_tasks
+        else: print("Congratulations, you have completed all your tasks!")
