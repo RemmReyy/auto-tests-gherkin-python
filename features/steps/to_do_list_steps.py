@@ -1,6 +1,7 @@
 from behave import given, when, then
 from to_do_list import Task, ToDoList
 
+
 @given('I want to create a tasks with the following details')
 def prepare_tasks_data(context):
     context.task_data = {}
@@ -96,3 +97,20 @@ def verify_task_status(context, task_title):
     for task in context.todo_list.task_list:
         if task.task_title == task_title:
             assert task.status == True, "Task status was not changed to completed"
+
+
+@given('I have my list with some completed tasks')
+def initialize_completed_tasks(context):
+    context.todo_list = ToDoList()
+    context.todo_list.add_task("Make homework", "You need to do your python homework", "20.02.2025", "Medium")
+    context.todo_list.add_task("Call mom", "Call mom and wish happy birthday", "18.02.2025", "High")
+    context.todo_list.change_status("Make homework", True)
+    context.todo_list.change_status("Call mom", True)
+
+@when('I call function show completed tasks')
+def retrieve_completed_tasks(context):
+    context.completed_tasks = context.todo_list.show_completed_tasks()
+
+@then('the completed tasks should include tasks with status complete')
+def verify_completed_tasks(context):
+    assert all(task.status for task in context.completed_tasks), "Not all tasks are marked as completed"

@@ -23,3 +23,8 @@ Feature: To do list functionality
     Given I have a task "Call mom" in my list
     When I change task Call mom status to completed
     Then the task Call mom should be marked as completed
+
+  Scenario: Showing completed tasks
+    Given I have my list with some completed tasks
+    When I call function show completed tasks
+    Then the completed tasks should include tasks with status complete

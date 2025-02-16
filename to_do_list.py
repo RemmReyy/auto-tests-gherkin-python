@@ -37,8 +37,7 @@ class ToDoList:
     def show_completed_tasks(self):
         completed_tasks = [task for task in self.task_list if task.status]
         if completed_tasks:
-            for task in completed_tasks:
-                print(task)
+            return completed_tasks
         else:
             raise ValueError("You don't have completed tasks")
 
