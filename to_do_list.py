@@ -2,19 +2,12 @@ from datetime import datetime, date
 
 
 class Task:
-    def __init__(self, task_title, task_text = "", deadline = None, priority = "", status = False):
+    def __init__(self, task_title, task_text = "", deadline ="", priority = "", status = False):
         self.task_title = task_title
         self.task_text = task_text
         self.deadline = deadline
         self.priority = priority
         self.status = status
-        if isinstance(deadline, str) and deadline:
-            try:
-                self.deadline = datetime.strptime(deadline, "%Y-%m-%d").date()
-            except ValueError:
-                raise ValueError("Incorrect deadline format! Use YYYY-MM-DD.")
-        else:
-            self.deadline = deadline if isinstance(deadline, date) else None
 
         valid_priorities = {"High", "Medium", "Low"}
         if priority not in valid_priorities:
@@ -32,13 +25,7 @@ class ToDoList:
         if self.task_exists(task_title):
             raise ValueError(f"The task '{task_title}' already exist!")
 
-        task_deadline = None
-        if deadline:
-            try:
-                task_deadline = datetime.strptime(deadline, "%Y-%m-%d").date()
-            except ValueError:
-                raise ValueError("Incorrect deadline format! Use YYYY-MM-DD.")
-        new_task = Task(task_title, task_text, task_deadline, priority)
+        new_task = Task(task_title, task_text, deadline, priority)
         self.task_list.append(new_task)
 
     def delete_task(self, task_title):
