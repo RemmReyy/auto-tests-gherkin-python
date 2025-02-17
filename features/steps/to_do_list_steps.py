@@ -133,3 +133,24 @@ def retrieve_active_tasks(context):
 @then('the active tasks list should include tasks with status active')
 def verify_active_tasks(context):
     assert all(not task.status for task in context.active_tasks), "Not all tasks are marked as active"
+
+
+@given('I have the following tasks in my list')
+def setup_tasks_in_list(context):
+    context.todo_list = ToDoList()
+    for row in context.table:
+        context.todo_list.add_task(
+            task_title=row['title'],
+            task_text=row['description'],
+            deadline=row['deadline'],
+            priority=row['priority']
+        )
+
+@when('I delete the task "{task_title}"')
+def delete_task(context, task_title):
+    context.todo_list.delete_task(task_title)
+
+@then('the task should be removed from the list')
+def verify_task_deleted(context):
+    for task in context.todo_list.task_list:
+        assert task.task_title != "Make homework", "Task was not deleted"

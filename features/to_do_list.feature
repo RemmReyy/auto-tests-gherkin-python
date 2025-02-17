@@ -33,3 +33,11 @@ Feature: To do list functionality
     Given I have my list with completed and active tasks
     When I call function show active tasks
     Then the active tasks list should include tasks with status active
+
+  Scenario: Deleting a task from the list
+    Given I have the following tasks in my list:
+      | title             | description                       | deadline    | priority |
+      | Make homework     | You need make your python homework| 20.02.2025  | Medium   |
+      | Buy some products | Buy milk, cheese and beef         | 17.02.2025  | Low      |
+    When I delete the task "Make homework"
+    Then the task should be removed from the list
