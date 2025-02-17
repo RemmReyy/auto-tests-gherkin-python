@@ -47,3 +47,16 @@ class ToDoList:
         if active_tasks:
             return active_tasks
         else: print("Congratulations, you have completed all your tasks!")
+
+
+    def sort_by_priority(self):
+        high_priority = []
+        medium_priority = []
+        low_priority = []
+        for task in self.task_list:
+            if task.priority == "High":
+                high_priority.append(task)
+            elif task.priority == "Medium":
+                medium_priority.append(task)
+            else: low_priority.append(task)
+        return high_priority + medium_priority + low_priority
