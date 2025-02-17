@@ -50,3 +50,12 @@ Feature: To do list functionality
       | Clean room      | Vacuum and dusting   | 18.02.2025  | Low      |
     When I sort tasks by priority
     Then tasks should be ordered with highest priority first
+
+  Scenario: Editing existing task
+    Given I have a tasks  in my list:
+      | title           | description          | deadline    | priority |
+      | Make homework   | Python homework      | 20.02.2025  | Medium   |
+      | Buy groceries   | Milk, eggs, bread    | 17.02.2025  | High     |
+      | Clean room      | Vacuum and dusting   | 18.02.2025  | Low      |
+    When I edit the task "Make homework" changing description to "Complete Python project"
+    Then the task "Make homework" should have the updated description "Complete Python project"

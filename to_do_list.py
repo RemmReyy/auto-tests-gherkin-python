@@ -69,3 +69,11 @@ class ToDoList:
                 medium_priority.append(task)
             else: low_priority.append(task)
         return high_priority + medium_priority + low_priority
+
+
+    def edit_the_task(self,task_title,new_text):
+        for task in self.task_list:
+            if task.task_title == task_title:
+                task.task_text = new_text
+                return True
+        return False

@@ -177,3 +177,25 @@ def check_sorted_list_by_priority(context):
        for task in context.todo_list.task_list:
            assert context.todo_list.task_list[0].priority == "High" and context.todo_list.task_list[1].priority == "Medium", "Tasks are not sorted correctly"
 
+
+@given('I have a tasks  in my list')
+def setup_tasks_in_new_list(context):
+    context.todo_list = ToDoList()
+    for row in context.table:
+        context.todo_list.add_task(
+            task_title=row['title'],
+            task_text=row['description'],
+            deadline=row['deadline'],
+            priority=row['priority']
+        )
+
+@when('I edit the task "{task_title}" changing description to "{new_description}"')
+def step_edit_task(context, task_title, new_description):
+    context.todo_list.edit_the_task(task_title,new_description)
+
+@then('the task "{task_title}" should have the updated description "{new_description}"')
+def check_new_description(context, task_title, new_description):
+    for task in context.todo_list.task_list:
+        if task.task_title == task_title:
+            assert task.task_text == new_description, "Failed to edit task description"
+
