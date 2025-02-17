@@ -41,3 +41,12 @@ Feature: To do list functionality
       | Buy some products | Buy milk, cheese and beef         | 17.02.2025  | Low      |
     When I delete the task "Make homework"
     Then the task should be removed from the list
+
+  Scenario: Sorting tasks by priority
+    Given I have the following tasks already in my list:
+      | title           | description          | deadline    | priority |
+      | Make homework   | Python homework      | 20.02.2025  | Medium   |
+      | Buy groceries   | Milk, eggs, bread    | 17.02.2025  | High     |
+      | Clean room      | Vacuum and dusting   | 18.02.2025  | Low      |
+    When I sort tasks by priority
+    Then tasks should be ordered with highest priority first

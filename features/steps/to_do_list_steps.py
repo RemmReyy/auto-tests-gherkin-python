@@ -85,7 +85,8 @@ def try_add_duplicate(context,task_title):
 
     @then('I should see an error about duplicate task')
     def verify_duplicate_error(context):
-        assert ValueError(f"The task '{task_title}' already exist!")
+        assert context.error_message == f"The task '{task_title}' already exist!", "Duplicate task error message incorrect"
+
 
 
 @when('I change task {task_title} status to completed')
@@ -150,7 +151,29 @@ def setup_tasks_in_list(context):
 def delete_task(context, task_title):
     context.todo_list.delete_task(task_title)
 
-@then('the task should be removed from the list')
-def verify_task_deleted(context):
+@then('the {task_title} should be removed from the list')
+def verify_task_deleted(context, task_title):
     for task in context.todo_list.task_list:
-        assert task.task_title != "Make homework", "Task was not deleted"
+        assert all(task.task_title != task_title for task in context.todo_list.task_list), f"Task '{task_title}' was not deleted"
+
+
+@given('I have the following tasks already in my list')
+def setup_tasks_in_unsorted_list(context):
+    context.todo_list = ToDoList()
+    for row in context.table:
+        context.todo_list.add_task(
+            task_title=row['title'],
+            task_text=row['description'],
+            deadline=row['deadline'],
+            priority=row['priority']
+        )
+
+@when('I sort tasks by priority')
+def step_sort_by_priority(context):
+    context.todo_list.task_list = context.todo_list.sort_by_priority()
+
+@then('tasks should be ordered with highest priority first')
+def check_sorted_list_by_priority(context):
+       for task in context.todo_list.task_list:
+           assert context.todo_list.task_list[0].priority == "High" and context.todo_list.task_list[1].priority == "Medium", "Tasks are not sorted correctly"
+
