@@ -218,3 +218,19 @@ def clear_to_do_list(context):
 @then("my to-do list should be empty")
 def check_list_after_clearing(context):
     assert len(context.todo_list.task_list) == 0, "The list did not delete all tasks"
+
+
+@given('I create a task with title "{title}", description "{description}", deadline "{deadline}", priority "{priority}"')
+def add_invalid_priority_task(context, title, description, deadline, priority):
+    context.todo_list = ToDoList()
+    try:
+        context.todo_list.add_task(title, description, deadline, priority)
+        context.error_message = None
+    except ValueError as e:
+        context.error_message = str(e)
+
+@then('I should see an error message')
+def step_error(context):
+    assert context.error_message is not None, "Expected an error message, but none was raised."
+
+

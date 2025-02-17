@@ -68,3 +68,7 @@ Feature: To do list functionality
       | Clean room      | Vacuum and dusting   | 18.02.2025  | Low      |
     When I whant to clear my to-do list
     Then my to-do list should be empty
+
+  Scenario: Creating a task with an invalid priority
+    Given I create a task with title "Urgent report", description "Complete the financial report", deadline "28.02.2025", priority "Critical"
+    Then I should see an error message
