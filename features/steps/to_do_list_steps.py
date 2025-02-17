@@ -199,3 +199,22 @@ def check_new_description(context, task_title, new_description):
         if task.task_title == task_title:
             assert task.task_text == new_description, "Failed to edit task description"
 
+
+@given("I create the following tasks in my list")
+def create_tasks_in_new_list(context):
+    context.todo_list = ToDoList()
+    for row in context.table:
+        context.todo_list.add_task(
+            task_title=row['title'],
+            task_text=row['description'],
+            deadline=row['deadline'],
+            priority=row['priority']
+        )
+
+@when("I whant to clear my to-do list")
+def clear_to_do_list(context):
+    context.todo_list.delete_all_tasks()
+
+@then("my to-do list should be empty")
+def check_list_after_clearing(context):
+    assert len(context.todo_list.task_list) == 0, "The list did not delete all tasks"

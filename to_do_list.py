@@ -77,3 +77,7 @@ class ToDoList:
                 task.task_text = new_text
                 return True
         return False
+
+
+    def delete_all_tasks(self):
+        self.task_list.clear()
